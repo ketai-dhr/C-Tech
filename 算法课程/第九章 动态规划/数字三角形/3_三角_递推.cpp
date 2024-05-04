@@ -17,7 +17,7 @@ int main(){
         }
     }
 
-    for (int i = n; i>=1;i--){
+    for (int i = n; i>=1; i--){
         for (int j = 1; j <= n; j++){
             f[i][j] = max(f[i + 1][j], f[i + 1][j + 1]) + g[i][j];
         }
