@@ -1,3 +1,11 @@
 {
-    "iis.configDir": ""
+    "iis.configDir": "",
+    "files.associations": {
+        "*.py": "python",
+        "*.json": "jsonc",
+        "random": "cpp",
+        "*.tcc": "cpp",
+        "string": "cpp",
+        "regex": "cpp"
+    }
 }

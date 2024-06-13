@@ -1,75 +1,98 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <queue>
+#define maxn 505
 using namespace std;
-int n, m;
-const int N = 1001;
-char g[N][N]; //存地图
-int dist[N][N]; // 存距离
-int dx[] = {-1, 0, 1, 0};
-int dy[] = {0, 1, 0, -1};
-int start_x, start_y, end_x, end_y;
-
-struct Node
+int n, m, maze[maxn][maxn], cnt, kk[maxn][maxn], startx, starty;
+bool vis[maxn][maxn];
+struct node
 {
-    int x;
-    int y;
+	int x, y;
 };
-int bfs(int start_x_, int start_y_)
+const int dx[4] = {1, -1, 0, 0};
+const int dy[4] = {0, 0, 1, -1};
+
+// BFS
+bool check(int s)
 {
-    memset(dist, 0 ,sizeof dist);
-    memset(g, 0 ,sizeof g);
+	queue<node> q;
+	memset(vis, false, sizeof(vis)); // 一定一定要初始化！
+	vis[startx][starty] = true;
+	q.push({startx, starty});
+	int sum = 1; // 第一个点已经走过了
+	while (!q.empty())
+	{
+		node cur = q.front();
+		q.pop();
 
-    queue<Node> q;
-    q.push({start_x_, start_y_});
-    dist[start_x_][start_y_] = 1;
+		// 枚举四个方向
+		for (int k = 0; k < 4; k++)
+		{
+			int x1 = cur.x + dx[k];
+			int y1 = cur.y + dy[k];
+			if (x1 < 1 || x1 > m || y1 < 1 || y1 > n || vis[x1][y1] || abs(maze[x1][y1] - maze[cur.x][cur.y]) > s)
+				continue;
 
-    while (!q.empty())
-    {
-        
-        Node node = q.front();
-        q.pop();
-        for (int i = 0; i <= 3; i++)
-        {
-            int a = node.x + dx[i];
-            int b = node.y + dy[i];
-            if (a >= 0 && a <= n && b >= 0 && b <= n && dist[a][b] == 0 && g[a][b] == '0')
-            {
-                q.push({a, b});
-                dist[a][b] = dist[node.x][node.y] + 1;
-                printf("%d\n", 1);
-            }
+			// 如果合法
+			vis[x1][y1] = true;
+			sum += kk[x1][y1]; // 统计到达的路标数
+			q.push({x1, y1});
 
-            if (a == end_x-1 && b == end_y-1){
-                for (int i = 0; i<n; i++){
-                    for (int y = 0; y <n; y++){
-                        printf("%d ", dist[i][y]);
-                    }
-                    printf("\n");
-                }
-                return dist[a][b];
-            }
-        }
-    }
-
-    return 0;
+			// 如果走到了所用的路标
+			if (sum == cnt)
+				return true;
+		}
+	}
+	// 没戏了不行的
+	return false;
 }
+
 int main()
 {
-    
-    scanf("%d", &n);
+	scanf("%d %d", &m, &n);
+	int low = 0, high = 0, mid, ans;
+	for (int i = 1; i <= m; i++)
+	{
+		for (int j = 1; j <= n; j++)
+		{
+			scanf("%d", &maze[i][j]);
+		}
+	}
+	for (int i = 1; i <= m; i++)
+	{
+		for (int j = 1; j <= n; j++)
+		{
+			scanf("%d", &kk[i][j]);
+			// 统计路标数
+			if (kk[i][j])
+			{
+				cnt++;
 
-    for(int i=1;i<=n;i++)
-    {
-        scanf("%s",g[i]+1);
-    }
+				// 找起始路标
+				if (cnt == 1)
+				{
+					startx = i;
+					starty = j;
+				}
+			}
+		}
+	}
 
-    scanf("%d %d", &start_x, &start_y);
-    scanf("%d %d", &end_x, &end_y);
-    // start_x-=1;
-    // start_y-=1;
-    // end_x-=1;
-    // end_y-=1;
-    int res = bfs(start_x, start_y);
-    printf("%d", res);
-    
-    return 0;
+	high = 1e9;
+	// 二分
+	while (low <= high)
+	{
+		mid = (low + high) / 2;
+		if (check(mid))
+		{
+			ans = mid;
+			high = mid - 1;
+		}
+		else
+			low = mid + 1;
+	}
+	printf("%d", ans);
+	return 0;
 }
