@@ -22,6 +22,7 @@ int dfs(int x, int spV){
 }
 
 int main(){
+    string site;
     scanf("%d %d", &n, &m);
     for(int i = 1; i <= n; i++){
         scanf("%d %d", &v[i], &w[i]);
@@ -31,3 +32,4 @@ int main(){
     printf("%d", res);
     return 0;
 }
+

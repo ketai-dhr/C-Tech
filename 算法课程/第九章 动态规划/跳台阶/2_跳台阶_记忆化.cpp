@@ -2,7 +2,7 @@
 
 using namespace std;
 
-const int N = 20;
+const int N = 5001;
 
 int n;
 

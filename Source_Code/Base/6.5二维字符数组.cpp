@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <bits/stdc++.h>
 using namespace std;
 
 int main() {
@@ -7,16 +8,18 @@ int main() {
     int rows, cols; // 行数和列数
 
     int number = 2;
-    for (int i = 0; i < number; ++i) {
+    for (int i = 0; i < number; i++) {
         cin.getline(matrix[i], 20);
     }
 
-    for (int i = 0; i < number; ++i) {
-        for (int j = 0; j < strlen(matrix[i]); ++j) {
+    for (int i = 0; i < number; i++) {
+        printf("%d\n", strlen(matrix[i]));
+        for (int j = 0; j < strlen(matrix[i]); j++) {
             if (isalpha(matrix[i][j])) { // 如果是字母，则打印
                 cout << matrix[i][j];
             }
         }
+        printf("\n");
     }
 
     return 0;

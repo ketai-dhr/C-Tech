@@ -31,7 +31,6 @@ int main(){
             tmp1 =newf;
         }
         printf("%d\n", f[n + 2]);
-        
     }
 
     return 0;
